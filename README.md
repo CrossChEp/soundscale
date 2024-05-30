@@ -1,15 +1,15 @@
 # SoundScale
-## Тех. стек
-- Язык программирования Go
-- Язык программирования Python
-- Язык программирования JavaScript
-- Язык для написания смарт-контрактов Solidity
-- Фреймворк GIN(использовался для гейтвея)
-- Технология GRPC(использовалась для общения между микросервисами)
+## Tech stack
+- The Go programming language
+- Python programming language
+- JavaScript programming language
+- A language for writing Solidity smart contracts
+- GIN framework (used for gateway)
+- GRPC technology (used for communication between microservices)
 - MongoDB
 - Redis
 - Ffmpeg
-- Фреймворк React Native(для мобильного приложения)
-- система контейнеризации Docker
+- React Native framework (for mobile application)
+- Docker containerization system
 - Kubernetes
-- Собственные сервера, поднятые в комнате
+- Own servers raised in the room
