@@ -1,0 +1,29 @@
+{
+  "name": "sol-payment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx hardhat test",
+    "deploy-local": "npx hardhat run --network localhost scripts/deploy.js",
+    "deploy": "npx hardhat run --network sepolia scripts/deploy.js",
+    "clean": "npx hardhat clean"
+  },
+  "keywords": [],
+  "author": "RegreTTO",
+  "type": "commonjs",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.5",
+    "hardhat": "^2.14.0",
+    "truffle-flattener": "^1.6.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ethereum-waffle": "^4.0.10",
+    "jquery": "^3.6.4",
+    "jQuery": "^1.7.4",
+    "web3": "^1.9.0"
+  }
+}

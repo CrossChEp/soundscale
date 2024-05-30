@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ .Chart.Name | lower}}-gateway
+spec:
+  selector:
+    istio: ingressgateway 
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+    - port:
+        number: 8081
+        name: player-http
+        protocol: HTTP
+      hosts:
+        - "*"
+    - port:
+        number: 6060
+        name: player-tcp
+        protocol: TCP
+      hosts:
+        - "*"

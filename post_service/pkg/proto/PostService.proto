@@ -1,0 +1,83 @@
+syntax="proto3";
+package post_service_proto;
+option go_package = "./post_service_proto";
+
+message AddPostReq {
+    string userId = 1;
+    string content = 2;
+    repeated string songs = 3;
+    repeated string playlists = 4;
+    repeated string albums = 5;
+}
+
+message PostResp {
+    string id = 1;
+    string authorId = 2;
+    string content = 3;
+    repeated string songs = 4;
+    repeated string playlists = 5;
+    repeated string albums = 6;
+    repeated string liked = 7;
+    repeated string disliked = 8;
+    string creationDate = 9;
+}
+
+message GetPostReq {
+    string postId = 1;
+}
+
+message GetUserPostsReq {
+    string userId = 1;
+}
+
+message GetPostsResp {
+    repeated PostResp posts = 1;
+}
+
+message UpdatePostReq {
+    string postId = 1;
+    string content = 2;
+    repeated string songs = 3;
+    repeated string playlists = 4;
+    repeated string albums = 5;
+    string userId = 6;
+}
+
+message DeletePostReq {
+    string postId = 1;
+    string userId = 2;
+}
+
+message Resp {
+    string content = 1;
+}
+
+message LikePostReq {
+    string userId = 1;
+    string postId = 2;
+}
+
+message DislikePostReq {
+    string userId = 1;
+    string postId = 2;
+}
+
+message GetUserLikedReq {
+    string userId = 1;
+}
+
+message GetUserDislikedReq {
+    string userId = 1;
+}
+
+service PostService {
+    rpc AddPost(AddPostReq) returns (PostResp);
+    rpc GetPost(GetPostReq) returns (PostResp);
+    rpc GetUserPosts(GetUserPostsReq) returns (GetPostsResp);
+    rpc UpdatePost(UpdatePostReq) returns (PostResp);
+    rpc DeletePost(DeletePostReq) returns (Resp);
+    rpc LikePost(LikePostReq) returns (PostResp);
+    rpc DislikePost(DislikePostReq) returns (PostResp);
+    rpc GetUserLiked(GetUserLikedReq) returns (GetPostsResp);
+    rpc GetUserDisliked(GetUserDislikedReq) returns (GetPostsResp);
+}

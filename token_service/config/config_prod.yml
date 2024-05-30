@@ -1,0 +1,7 @@
+port: 8794
+address: "0.0.0.0"
+
+services:
+  user_service:
+    port: 9385
+    address: "user-service"

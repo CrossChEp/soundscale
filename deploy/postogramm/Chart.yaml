@@ -1,0 +1,63 @@
+apiVersion: v1
+name: "Postogram"
+description: "Great music app"
+version: 0.1.0
+
+dependencies:
+  - alias: token_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: user_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - name: mongodb
+    version: "13.9.4"
+    repository: https://charts.bitnami.com/bitnami
+
+  - name: redis
+    version: "17.9.4"
+    repository: https://charts.bitnami.com/bitnami
+
+  - alias: photo_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+  
+  - alias: player_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: collection_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: music_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: "playlist_service"
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: post_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: recommendation_service
+    name: base_service
+    version: "v1"
+    repository: file://../base_service
+
+  - alias: gateway
+    name: base_service
+    version: "v1"
+    repository: file://../base_service

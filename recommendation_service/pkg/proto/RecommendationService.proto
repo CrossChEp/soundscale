@@ -1,0 +1,17 @@
+syntax="proto3";
+package recommendation_service_proto;
+option go_package = "./recommendation_service_proto";
+
+message GetRecommendationReq {
+    string userId = 1;
+}
+
+message GetRecommendationResp {
+    repeated string songs = 1;
+    repeated string musicians = 2;
+    repeated string posts = 3;
+}
+
+service RecommendationService {
+    rpc GetRecommendation (GetRecommendationReq) returns (GetRecommendationResp);
+}

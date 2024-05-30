@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package token_service_proto;
+option go_package = "./token_service_proto";
+
+service TokenService {
+  rpc GetToken(Credentials) returns (Token);
+  rpc IsTokenExpired(Token) returns (IsExpiredResponse);
+  rpc RefreshToken(Token) returns (Token);
+}
+
+message Credentials {
+  string login = 1;
+  string password = 2;
+}
+
+message Timestamp {
+  uint64 seconds = 1;
+  uint64 nanos = 2;
+}
+
+message Token {
+  string token = 1;
+}
+
+message IsExpiredResponse {
+  bool is_expired = 1;
+}

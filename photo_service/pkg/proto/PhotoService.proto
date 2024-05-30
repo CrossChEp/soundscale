@@ -1,0 +1,74 @@
+syntax="proto3";
+package photo_service_proto;
+option go_package = "./photo_service_proto";
+
+message PFPRequest {
+    string userId = 1;
+    string photo = 2;
+}
+
+message Response {
+    string content = 1;
+    string error = 2;
+}
+
+message GetPFPReq {
+    string userId = 1;
+}
+
+message UploadCoverReq {
+    string userId = 1;
+    string songId = 2;
+    string file = 3;
+}
+
+message DownloadSongCoverReq {
+    string songId = 1;
+}
+
+message UploadPlaylistCoverReq {
+    string userId = 1;
+    string playlistId = 2;
+    string file = 3;
+}
+
+message DownloadPlaylistCoverReq {
+    string playlistId = 1;
+}
+
+message UploadAlbumCoverReq {
+    string userId = 1;
+    string albumId = 2;
+    string file = 3;
+}
+
+message DownloadAlbumCoverReq {
+    string albumId = 1;
+}
+
+message UploadPostPhotosReq {
+    string userId = 1;
+    string postId = 2;
+    repeated string photos = 3;
+}
+
+message DownloadPostPhotosReq {
+    string postId = 1;
+}
+
+message PhotosResp {
+    repeated string photos = 1;
+}
+
+service PhotoService {
+    rpc UploadPFP(PFPRequest) returns (Response);
+    rpc DownloadPFP(GetPFPReq) returns (Response);
+    rpc UploadCover(UploadCoverReq) returns (Response);
+    rpc DownloadSongCover(DownloadSongCoverReq) returns (Response);
+    rpc UploadPlaylistCover(UploadPlaylistCoverReq) returns (Response);
+    rpc DownloadPlaylistCover(DownloadPlaylistCoverReq) returns (Response);
+    rpc UploadAlbumCover(UploadAlbumCoverReq) returns (Response);
+    rpc DownloadAlbumCover(DownloadAlbumCoverReq) returns (Response);
+    rpc UploadPostPhotos(UploadPostPhotosReq) returns (Response);
+    rpc DownloadPostPhotos(DownloadPostPhotosReq) returns (PhotosResp);
+}

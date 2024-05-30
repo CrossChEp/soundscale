@@ -1,0 +1,112 @@
+syntax="proto3";
+package playlist_service_proto;
+option go_package = "./playlist_service_proto";
+
+message AddCurrentPlaylistReq {
+    string userId = 1;
+    repeated string songs = 2;
+}
+
+message AddCurrentPlaylistResp {
+    string message = 1;
+    string error = 2;
+}
+
+message AddPlaylistReq {
+    string name = 1;
+    string authorId = 2;
+    repeated string songIds = 3;
+    string type = 4;
+}
+
+message GetPlaylistResp {
+    string id = 1;
+    string name = 2;
+    string authorId = 3;
+    repeated string songs = 4;
+    string createdAt = 5;
+    string lastUpdated = 6;
+    int64 listened = 7;
+    string type = 8;
+    repeated string liked = 9;
+    repeated string disliked = 10;
+}
+
+message GetPlaylistReq {
+    string id = 1;
+    string playlistType = 2;
+}
+
+message GetPlaylistsByAuthorReq {
+    string id = 1;
+    string playlistType = 2;
+}
+
+message GetPlaylistsResp {
+    repeated GetPlaylistResp playlists = 1;
+}
+
+message AddSongsToPlaylistReq {
+    string authorId = 1;
+    string playlistId = 2;
+    repeated string songIds = 3;
+    string playlistType = 4;
+}
+
+message DeleteSongsFromPlaylistReq {
+    string authorId = 1;
+    string playlistId = 2;
+    repeated string songsIds = 3;
+    string playlistType = 4;
+}
+
+message DeletePlaylistReq {
+    string authorId = 1;
+    string id = 2;
+    string playlistType = 3;
+}
+
+message GetUserFavouriteReq {
+    string userId = 1;
+}
+
+message MessageResp {
+    string content = 1;
+}
+
+message LikePlaylistReq {
+    string userId = 1;
+    string playlistId = 2;
+    string playlistType = 3;
+}
+
+message DislikePlaylistReq {
+    string userId = 1;
+    string playlistId = 2;
+    string playlistType = 3;
+}
+
+message GetUserLikedReq {
+    string userId = 1;
+    string playlistType = 2;
+}
+
+message GetUserDislikedReq {
+    string userId = 1;
+    string playlistType = 2;
+}
+
+service PlaylistService {
+    rpc AddPlaylist(AddPlaylistReq) returns (GetPlaylistResp);
+    rpc GetPlaylist(GetPlaylistReq) returns (GetPlaylistResp);
+    rpc GetPlaylistsByAuthor(GetPlaylistsByAuthorReq) returns (GetPlaylistsResp);
+    rpc AddSongToPlaylist(AddSongsToPlaylistReq) returns (GetPlaylistResp);
+    rpc DeleteSongFromPlaylist(DeleteSongsFromPlaylistReq) returns (GetPlaylistResp);
+    rpc DeletePlaylist(DeletePlaylistReq) returns (MessageResp);
+    rpc AddCurrentPlaylist(AddCurrentPlaylistReq) returns (AddCurrentPlaylistResp);
+    rpc GetFavouriteSongs(GetUserFavouriteReq) returns (GetPlaylistResp);
+    rpc LikePlaylist(LikePlaylistReq) returns (GetPlaylistResp);
+    rpc DislikePlaylist(DislikePlaylistReq) returns (GetPlaylistResp);
+    rpc GetUserLiked(GetUserLikedReq) returns (GetPlaylistsResp);
+    rpc GetUserDisliked(GetUserDislikedReq) returns (GetPlaylistsResp);
+}

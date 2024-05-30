@@ -1,0 +1,116 @@
+syntax="proto3";
+package music_service_proto;
+option go_package = "./music_service_proto";
+
+import "google/protobuf/timestamp.proto";
+
+
+message AddReq {
+    string authorId = 1;
+    repeated string collaborators = 2;
+    string songName = 3;
+    string genre = 4;
+    string exclusive = 5;
+}
+
+message GetReq {
+    string id = 1;
+}
+
+message GetResp {
+    string id = 1;
+    string songName = 2;
+    string authorId = 3;
+    repeated string collaborators = 5;
+    string genre = 6;
+    google.protobuf.Timestamp releaseDate = 7;
+    repeated string played= 8;
+    repeated string listened = 9;
+    repeated string liked = 10;
+    repeated string disliked = 11;
+    string exclusive = 12;
+    string error = 13;
+}
+
+message UpdateReq {
+    string authorId = 1;
+    string songId = 2;
+    string songName = 3;
+    repeated string collaborators = 4;
+}
+
+message DeleteReq {
+    string authorId = 1;
+    string songId = 2;
+}
+
+message DeleteResp {
+    string message = 1;
+    string error = 2;
+}
+
+message GetByAuthorReq {
+    string authorId = 1;
+}
+
+message GetSongsResp {
+    repeated GetResp songs = 1;
+    string error = 2;
+}
+
+message GetByCollaboratorsReq {
+    string collaboratorId = 1;
+}
+
+message IncreasePlayedQuantityReq {
+    string userId = 1;
+    string songId = 2;
+}
+
+message IncreaseListenedQuantityReq {
+    string userId = 1;
+    string songId = 2;
+}
+
+message GetBySingerReq {
+    string singerId = 1;
+}
+
+message LikeSongReq {
+    string userId = 1;
+    string songId = 2;
+}
+
+message DislikeSongReq {
+    string userId = 1;
+    string songId = 2;
+}
+
+message GetLikedSongsReq {
+    string userId = 1;
+}
+
+message GetDislikedSongsReq {
+    string userId = 1;
+}
+
+message GetTrendsReq {
+
+}
+
+service MusicService {
+    rpc AddSong(AddReq) returns (GetResp);
+    rpc GetSong(GetReq) returns (GetResp);
+    rpc UpdateSong(UpdateReq) returns (GetResp);
+    rpc DeleteSong(DeleteReq) returns (DeleteResp);
+    rpc GetByAuthor(GetByAuthorReq) returns (GetSongsResp);
+    rpc GetByCollaborators(GetByCollaboratorsReq) returns (GetSongsResp);
+    rpc GetBySinger(GetBySingerReq) returns (GetSongsResp);
+    rpc IncreasePlayedQuantity(IncreasePlayedQuantityReq) returns (GetResp);
+    rpc IncreaseListenedQuantity(IncreaseListenedQuantityReq) returns (GetResp);
+    rpc LikeSong(LikeSongReq) returns (GetResp);
+    rpc DislikeSong(DislikeSongReq) returns (GetResp);
+    rpc GetUserLiked(GetLikedSongsReq) returns (GetSongsResp);
+    rpc GetUserDisliked(GetDislikedSongsReq) returns (GetSongsResp);
+    rpc GetTrends(GetTrendsReq) returns (GetSongsResp);
+}

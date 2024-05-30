@@ -1,0 +1,74 @@
+user_service:
+  dependencies:
+    - user_service
+
+token_service:
+  dependencies:
+    - user_service
+    - token_service
+
+photo_service:
+  dependencies:
+    - music_service
+    - photo_service
+    - playlist_service
+    - post_service
+    - user_service
+
+music_service:
+  dependencies:
+    - music_service
+    - user_service
+    - collection_service
+
+collection_service:
+  dependencies:
+    - collection_service
+    - music_service
+    - playlist_service
+    - user_service
+
+gateway:
+  dependencies:
+    - collection_service
+    - music_service
+    - photo_service
+    - playlist_service
+    - post_service
+    - token_service
+    - user_service
+    - comment_service
+    - recommendation_service
+
+player_service:
+  dependencies:
+    - music_service
+    - user_service
+    - collection_service
+
+playlist_service:
+  dependencies:
+    - music_service
+    - playlist_service
+    - user_service
+
+post_service:
+  dependencies:
+    - music_service
+    - playlist_service
+    - post_service
+
+comment_service:
+  dependencies:
+    - user_service
+    - comment_service
+    - post_service
+    - music_service
+    - playlist_service
+
+recommendation_service:
+  dependencies:
+    - user_service
+    - music_service
+    - post_service
+    - collection_service

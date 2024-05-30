@@ -1,0 +1,66 @@
+syntax="proto3";
+package comment_service_proto;
+option go_package = "./comment_service_proto";
+
+message AddCommentReq {
+    string userId = 1;
+    string entityId = 2;
+    string entityType = 3;
+    string content = 4;
+}
+
+message GetCommentReq {
+    string commentId = 1;
+    string entityType = 2;
+}
+
+message GetCommentResp {
+    string commentId = 1;
+    string authorId = 2;
+    string entityType = 3;
+    string entityId = 4;
+    string content = 5;
+    string creationDate = 6;
+}
+
+message GetUserComments {
+    string userId = 1;
+    string entityType = 2;
+}
+
+message UpdateCommentReq {
+    string userId = 1;
+    string commentId = 2;
+    string newContent = 3;
+}
+
+message DeleteCommentReq {
+    string userId = 1;
+    string commentId = 2;
+}
+
+message Message {
+    string content = 1;
+}
+
+message GetEntityCommentsReq {
+    string entityType = 1;
+    string entityId = 2;
+}
+
+message GetManyCommentsResp {
+    repeated GetCommentResp comments = 1;
+}
+
+message GetUserCommentsReq {
+    string userId = 1;
+}
+
+service CommentService {
+    rpc AddComment(AddCommentReq) returns (GetCommentResp);
+    rpc GetComment(GetCommentReq) returns (GetCommentResp);
+    rpc UpdateComment(UpdateCommentReq) returns (GetCommentResp);
+    rpc DeleteComment(DeleteCommentReq) returns (Message);
+    rpc GetEntityComments(GetEntityCommentsReq) returns (GetManyCommentsResp);
+    rpc GetUserComments(GetUserCommentsReq) returns (GetManyCommentsResp);
+}

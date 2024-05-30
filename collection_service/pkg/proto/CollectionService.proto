@@ -1,0 +1,94 @@
+syntax="proto3";
+package collection_service_proto;
+option go_package = "./collection_service_proto";
+
+message InitReq {
+    string userId = 1;
+}
+
+message PlaylistsReq {
+    string userId = 1;
+    repeated string playlistIds = 2;
+}
+
+message AlbumsReq {
+    string userId = 1;
+    repeated string albumIds = 2;
+}
+
+message SongsReq {
+    string userId = 1;
+    repeated string songIds = 2;
+}
+
+message GetFavouritesResp {
+    string id = 1;
+    string userId = 2;
+    repeated string songs = 3;
+    repeated string playlists = 4;
+    repeated string albums = 5;
+    repeated string genres = 6;
+    repeated string createdGenres = 7;
+    repeated string followed = 8;
+    repeated string subscribed = 9;
+}
+
+message GetCollectionReq {
+    string userId = 1;
+}
+
+message AddGenresReq {
+    string userId = 1;
+    repeated string genres = 2;
+}
+
+message AddCreatedGenresReq {
+    string userId = 1;
+    repeated string genres = 2;
+}
+
+message GetCollectionsByCreatedGenresReq {
+    repeated string genres = 1;
+}
+
+message GetCollectionsResp {
+    repeated GetFavouritesResp collections = 1;
+}
+
+message FollowReq {
+    string userId = 1;
+    string musicianId = 2;
+}
+
+message SubscribeReq {
+    string userId = 1;
+    string musicianId = 2;
+}
+
+message UnfollowReq {
+    string userId = 1;
+    string musicianId = 2;
+}
+
+message UnsubscribeReq {
+    string userId = 1;
+    string musicianId = 2;
+}
+
+service CollectionService {
+    rpc InitCollection(InitReq) returns (GetFavouritesResp);
+    rpc AddPlaylists(PlaylistsReq) returns (GetFavouritesResp);
+    rpc AddAlbums(AlbumsReq) returns (GetFavouritesResp);
+    rpc AddSongs(SongsReq) returns (GetFavouritesResp);
+    rpc AddGenres(AddGenresReq) returns (GetFavouritesResp);
+    rpc AddCreatedGenres(AddCreatedGenresReq) returns (GetFavouritesResp);
+    rpc RemoveSongs(SongsReq) returns (GetFavouritesResp);
+    rpc RemovePlaylists(PlaylistsReq) returns (GetFavouritesResp);
+    rpc RemoveAlbums(AlbumsReq) returns (GetFavouritesResp);
+    rpc GetCollection(GetCollectionReq) returns (GetFavouritesResp);
+    rpc GetCollectionByCreatedGenres(GetCollectionsByCreatedGenresReq) returns (GetCollectionsResp);
+    rpc Follow(FollowReq) returns (GetFavouritesResp);
+    rpc Unfollow(UnfollowReq) returns (GetFavouritesResp);
+    rpc Subscribe(SubscribeReq) returns (GetFavouritesResp);
+    rpc Unsubscribe(UnsubscribeReq) returns (GetFavouritesResp);
+}

@@ -1,0 +1,23 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nsf-storage
+provisioner: nope
+parameters:
+  archiveOnDelete: "false"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb
+  labels:
+    name: mongo-nfs
+spec:
+  storageClassName: nfs-storage # same storage class as pvc
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.0.31 # ip addres of nfs server
+    path: "/srv/mongodb_data" # path to directory

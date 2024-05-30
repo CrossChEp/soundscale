@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Chart.Name | lower}}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - "{{ .Chart.Name | lower }}-gateway"
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: gateway.app.svc.cluster.local
+  - match:
+    - uri:
+        exact: /upload
+    - uri:
+        prefix: /static
+    route:
+    - destination:
+        host: player-service.app.svc.cluster.local
+        port: 
+          number: 8081
+  - match:
+    - uri:
+        exact: /play
+    route:
+    - destination:
+        host: player-service.app.svc.cluster.local
+        port:
+          number: 6060

@@ -1,0 +1,39 @@
+dependencies:
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.9.4
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 17.9.4
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+- name: base_service
+  repository: file://../base_service
+  version: v1
+digest: sha256:8dfc07c8c0ce52786ff91002547aec50b1c8a192ebf70d85da6f4cadf406869e
+generated: "2023-04-18T20:55:16.97312952+03:00"

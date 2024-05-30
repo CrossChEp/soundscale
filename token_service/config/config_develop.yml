@@ -1,0 +1,7 @@
+port: 8794
+address: "localhost"
+
+services:
+  user_service:
+    port: 8080
+    address: "localhost"

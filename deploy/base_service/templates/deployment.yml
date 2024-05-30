@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name | lower | replace "_" "-"}}"
+  labels:
+    proj: "{{ .Release.Name | lower}}"
+    app: {{ .Chart.Name | lower | replace "_" "-" }}
+spec:
+  replicas: {{ .Values.hpa.minReplicas }}
+  selector:
+    matchLabels:
+      proj: "{{ .Release.Name | lower}}"
+  template:
+    metadata:
+      labels:
+        proj: "{{ .Release.Name | lower }}"
+        app: "{{ .Chart.Name | lower | replace "_" "-"}}"
+    spec:
+      containers:
+        - name: {{ .Chart.Name | lower | replace "_" "-"}}
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ default "Always" .Values.pull_policy }}
+          {{- if .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12}} 
+      {{- end }}
+          ports:
+            {{- if .Values.ports }}
+            {{- range $i, $val := .Values.ports }}
+            - containerPort: {{ $val.port }}
+            {{- end -}}
+            {{- else }}
+            - containerPort: {{ .Values.port }}
+            {{- end }}
+          args: {{ toYaml .Values.args | nindent 12}}
+      volumes:
+      {{- if .Values.volumes -}}
+        {{- toYaml .Values.volumes | nindent 8}}
+      {{- end }}

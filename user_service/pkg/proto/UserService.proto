@@ -1,0 +1,62 @@
+syntax="proto3";
+package user_service_proto;
+option go_package = "./user_service_proto";
+
+message AddRequest {
+    string nickname = 1;
+    string email = 2;
+    string phoneNumber = 3;
+    string password = 4;
+}
+
+message GetByIdRequest {
+    string  id = 1;
+}
+
+message GetByNicknameRequest {
+    string nickname = 1;
+}
+
+
+message GetPrivateResponse {
+    string id = 1;
+    string nickname = 2;
+    string email = 4;
+    string phoneNumber = 5;
+    string password = 6;
+    string state = 7;
+    string error = 8;
+}
+
+message GetResponse {
+    string id = 1;
+    string nickname = 2;
+    string email = 4;
+    string phoneNumber = 5;
+    string state = 6;
+    string error = 7;
+}
+
+message UpdateRequest {
+    string userId = 1;
+    string nickname = 2;
+    string login = 3;
+    string email = 4;
+    string phoneNumber = 5;
+    string password = 6;
+    string userState = 7;
+}
+
+message DeleteRequest {
+    string userId = 1;
+}
+
+
+service UserService {
+    rpc Add(AddRequest) returns (GetPrivateResponse);
+    rpc GetById(GetByIdRequest) returns (GetResponse);
+    rpc GetByNickname(GetByNicknameRequest) returns (GetResponse);
+    rpc GetByNicknamePrivate(GetByNicknameRequest) returns (GetPrivateResponse);
+    rpc Update(UpdateRequest) returns (GetResponse);
+    rpc Delete(DeleteRequest) returns (GetResponse);
+}

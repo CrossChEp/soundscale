@@ -1,0 +1,228 @@
+global:
+  project_namespace: app
+
+
+redis:
+  fullnameOverride: redis
+  auth:
+    enabled: true
+    password: PVwsdG5xI3Rrbm1eY1B3LCxcOX00Kih4aGdxIVJ9TCg9d2M8IitqUDQmTEp9TXsjKCoK
+  master:
+    persistence:
+      enabled: false
+  replica:
+    persistence:
+      enabled: false
+
+
+mongodb:
+  fullnameOverride: mongodb
+  architecture: standalone
+  persistence:
+    enabled: true
+    storageClass: "nfs-storage"
+    resourcePolicy: "" # keep
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+  auth:
+    rootPassword: cnR0NSptWzhwcl1WPltMUG4qRix7ciVAfF9YY0YtNX1xR0MpXz5wKVhETj1yS2g8Zkgycy83IXMkVzw3NDh3cTglRylGa1NuO0tDKD9SR1ZKUDYpRihdPnRwfCFXPG4sW3EjfAo=
+    replicaSetKey: KGZeNUdnM2dqfTVLL0haeFRsJSUsJSEiLGwhRHt2ZmA7cHQ+V2JHajp3RD4oTComWnNdKn4kcDd0ansoaz1abEcnSCglKCVeUHZIXkpqLS08M3JYMy5QUWc1JXZXTWg7Qjlkfgo=
+    databases:
+      - "soundscale_users"
+      - "soundscale_collections"
+      - "soundscale_posts"
+      - "soundscale_songs"
+      - "soundscale_playlists"
+    usernames:
+      - "user_service"
+      - "collection_service"
+      - "post_service"
+      - "music_service"
+      - "playlist_service"
+    passwords:
+      - "VyZDSi5QNU5dUExCZ2shXmNqNSEyMzh8NXBtPl0zYD4jLSomSkc9fnRHLEt7TCgySEQK"
+      - "fEZiSy8jNGdYXHQqbSZkYydLSlg9VGB8JHhLXEMjOiYtY3ElSHRdI2hLbl9ofmg5TUsK"
+      - "dFwnOydNLVA8LmJWam1fSztbW2t9Pl9rXDktKl9bJXt4aCVmY3EsXnwkLX4hKTNcO1YK"
+      - "ZCFSVDxWXHxwXDRAOXdtXCZjUiI0RltqLT40TVtfVHJ2Tj07aFRtK2YnI1cjKTlOWG0K"
+      - "I3dKJW1NXi5OIT0lclAiQzQzX0BtJHAnRnRWdDRXIypuXC1GSkZKdCcoLz0ubldXLDwK"
+token_service:
+  image: regretto/token_service:latest
+  port: 8794
+  service:
+    externalPort: 8794
+  args:
+    - "-cfg"
+    - "./config/config_prod.yml"
+
+collection_service:
+  image: regretto/collection_service:latest
+  port: 9876
+  args:
+    - "-port"
+    - "9876"
+    - "-usaddr"
+    - "user-service:9385"
+    - "-dbaddr"
+    - "mongodb://collection_service:fEZiSy8jNGdYXHQqbSZkYydLSlg9VGB8JHhLXEMjOiYtY3ElSHRdI2hLbl9ofmg5TUsK@mongodb:27017/soundscale_collections"
+    - "-dbname"
+    - "soundscale_collections"
+    - "-pladdr"
+    - "playlist-service:6061"
+    - "-msaddr"
+    - "music-service:7070"
+user_service:
+  image: regretto/user_service:latest
+  port: 9385
+  args:
+    - "-port"
+    - "9385"
+    - "-dbaddr"
+    - "mongodb://user_service:VyZDSi5QNU5dUExCZ2shXmNqNSEyMzh8NXBtPl0zYD4jLSomSkc9fnRHLEt7TCgySEQK@mongodb:27017/soundscale_users"
+    - "-dbname"
+    - "soundscale_users"
+
+post_service:
+  image: regretto/post_service
+  port: 5555
+  args:
+    - "-port"
+    - "5555"
+    - "-dbname"
+    - "soundscale_posts"
+    - "-dbaddr"
+    - "mongodb://post_service:dFwnOydNLVA8LmJWam1fSztbW2t9Pl9rXDktKl9bJXt4aCVmY3EsXnwkLX4hKTNcO1YK@mongodb:27017/soundscale_posts"
+    - "-msaddr"
+    - "music-service:7070"
+    - "-pladdr"
+    - "playlist-service:6061"
+
+playlist_service:
+  image: regretto/playlist_service
+  port: 6061
+  args:
+    - "-port"
+    - "6061"
+    - "-usaddress"
+    - "user-service:9385"
+    - "-msaddress"
+    - "music-service:7070"
+    - "-dbname"
+    - "soundscale_playlists"
+    - "-dbaddr"
+    - "mongodb://playlist_service:I3dKJW1NXi5OIT0lclAiQzQzX0BtJHAnRnRWdDRXIypuXC1GSkZKdCcoLz0ubldXLDwK@mongodb:27017/soundscale_playlists"
+    - "-rhost"
+    - "redis"
+    - "-rpassword"
+    - "PVwsdG5xI3Rrbm1eY1B3LCxcOX00Kih4aGdxIVJ9TCg9d2M8IitqUDQmTEp9TXsjKCoK"
+    - "-rport"
+    - "6379"
+
+music_service:
+  image: regretto/music_service
+  port: 7070
+  args:
+    - "-port"
+    - "7070"
+    - "-dbn"
+    - "soundscale_songs"
+    - "-dbaddr"
+    - "mongodb://music_service:ZCFSVDxWXHxwXDRAOXdtXCZjUiI0RltqLT40TVtfVHJ2Tj07aFRtK2YnI1cjKTlOWG0K@mongodb:27017/soundscale_songs"
+    - "-usaddr"
+    - "user-service:9385"
+    - "-colladdr"
+    - "collection-service:9876"
+
+photo_service:
+  image: regretto/photo_service
+  port: 7354
+  volumeMounts:
+    - mountPath: /data
+      name: data
+  volumes:
+    - name: data
+      nfs:
+        server: 192.168.0.31
+        path: /srv/photo_service_data
+  args:
+    - "-port"
+    - "7345"
+    - "-usaddr"
+    - "user-service:9385"
+    - "-msaddr"
+    - "music-service:7070"
+    - "-psaddr"
+    - "playlist-service:6061"
+    - "-posaddr"
+    - "post-service:5555"
+    - "-sdir"
+    - "/data/"
+
+player_service:
+  image: regretto/player_service
+  ports:
+    - port: 8081
+      name: http
+    - port: 6060
+      name: tcp
+  volumeMounts:
+    - mountPath: /data
+      name: data
+  volumes:
+    - name: data
+      nfs:
+        server: 192.168.0.31
+        path: /srv/player_service_data
+
+  args:
+    - "-usaddr"
+    - "user-service:9385"
+    - "-tcpaddr"
+    - "0.0.0.0:6060"
+    - "-rport"
+    - "6379"
+    - "-rpassword"
+    - "PVwsdG5xI3Rrbm1eY1B3LCxcOX00Kih4aGdxIVJ9TCg9d2M8IitqUDQmTEp9TXsjKCoK"
+    - "-rhost"
+    - "redis"
+    - "-msaddress"
+    - "music-service:7070"
+    - "-sdir"
+    - "/data/"
+
+
+recommendation_service:
+  image: regretto/recommendation_service
+  port: 4561
+  args:
+    - "-port"
+    - "4561"
+    - "-usaddr"
+    - "user-service:9385"
+    - "-msaddr"
+    - "music-service:7070"
+    - "-postaddr"
+    - "post-service:5555"
+    - "-csaddr"
+    - "collection-service:9876"
+
+gateway:
+  image: regretto/gateway
+  port: 9999
+  args:
+    - "-port"
+    - "9999"
+    - "-usaddr"
+    - "user-service:9385"
+    - "-tsaddr"
+    - "token-service:8794"
+    - "-psaddr"
+    - "photo-service:7345"
+    - "-csaddr"
+    - "collection-service:9876"
+    - "-posaddr"
+    - "post-service:5555"
+    - "-msaddr"
+    - "music-service:7070"
+    - "-pladdr"
+    - "playlist-service:6061"
